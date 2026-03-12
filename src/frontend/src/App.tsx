@@ -1,14 +1,5 @@
-import { Badge } from "@/components/ui/badge";
-import { Skeleton } from "@/components/ui/skeleton";
 import { AnimatePresence, motion } from "motion/react";
-import { useEffect, useRef, useState } from "react";
-import type { Article, Song, Writing } from "./backend";
-import {
-  useListAllArticles,
-  useListAllSongs,
-  useListAllWritings,
-  useSeedContent,
-} from "./hooks/useQueries";
+import { useEffect, useState } from "react";
 
 // ─── Nav ─────────────────────────────────────────────────────────────────────
 function Nav() {
@@ -16,16 +7,16 @@ function Nav() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 80);
+    const handler = () => setScrolled(window.scrollY > 60);
     window.addEventListener("scroll", handler);
     return () => window.removeEventListener("scroll", handler);
   }, []);
 
   const links = [
     { label: "About", href: "#about" },
-    { label: "Articles", href: "#articles" },
-    { label: "Writings", href: "#writings" },
-    { label: "Songs", href: "#songs" },
+    { label: "Services", href: "#services" },
+    { label: "How It Works", href: "#how" },
+    { label: "Team", href: "#team" },
     { label: "Contact", href: "#contact" },
   ];
 
@@ -33,17 +24,18 @@ function Nav() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
-          ? "bg-background/96 backdrop-blur-md border-b border-border"
+          ? "bg-background/95 backdrop-blur-md border-b border-border"
           : "bg-transparent"
       }`}
     >
-      <nav className="max-w-7xl mx-auto px-8 h-[60px] flex items-center justify-between">
+      <nav className="max-w-7xl mx-auto px-6 md:px-12 h-16 flex items-center justify-between">
         <a
           href="#home"
           data-ocid="nav.link"
-          className="font-display text-lg font-light tracking-widest text-foreground hover:text-accent transition-colors uppercase"
+          className="font-display text-lg font-semibold tracking-wide text-foreground hover:opacity-80 transition-opacity"
+          style={{ fontFamily: "'Cormorant Garant', Georgia, serif" }}
         >
-          Real Truth
+          The Silent Voice
         </a>
 
         <ul className="hidden md:flex items-center gap-10">
@@ -60,21 +52,35 @@ function Nav() {
           ))}
         </ul>
 
+        <a
+          href="#contact"
+          data-ocid="nav.primary_button"
+          className="hidden md:inline-flex section-label border border-foreground/40 px-5 py-2 hover:border-foreground hover:text-foreground transition-all duration-200"
+        >
+          Get in Touch
+        </a>
+
         <button
           type="button"
-          className="md:hidden flex flex-col gap-[5px] p-2"
+          className="md:hidden flex flex-col gap-1.5 p-2"
           onClick={() => setMenuOpen(!menuOpen)}
           data-ocid="nav.toggle"
           aria-label="Toggle menu"
         >
           <span
-            className={`block w-5 h-px bg-foreground transition-all duration-300 ${menuOpen ? "rotate-45 translate-y-[6px]" : ""}`}
+            className={`block w-6 h-px bg-foreground transition-all duration-300 ${
+              menuOpen ? "rotate-45 translate-y-[7px]" : ""
+            }`}
           />
           <span
-            className={`block w-5 h-px bg-foreground transition-all duration-300 ${menuOpen ? "opacity-0" : ""}`}
+            className={`block w-6 h-px bg-foreground transition-all duration-300 ${
+              menuOpen ? "opacity-0" : ""
+            }`}
           />
           <span
-            className={`block w-5 h-px bg-foreground transition-all duration-300 ${menuOpen ? "-rotate-45 -translate-y-[6px]" : ""}`}
+            className={`block w-6 h-px bg-foreground transition-all duration-300 ${
+              menuOpen ? "-rotate-45 -translate-y-[7px]" : ""
+            }`}
           />
         </button>
       </nav>
@@ -85,9 +91,11 @@ function Nav() {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            className="md:hidden bg-background/98 border-b border-border overflow-hidden"
+            transition={{ duration: 0.3 }}
+            className="md:hidden bg-background border-b border-border overflow-hidden"
           >
-            <ul className="px-8 py-6 flex flex-col gap-5">
+            <div className="masthead-rule" />
+            <ul className="px-8 py-8 flex flex-col gap-6">
               {links.map((link) => (
                 <li key={link.href}>
                   <a
@@ -100,6 +108,15 @@ function Nav() {
                   </a>
                 </li>
               ))}
+              <li className="pt-4 border-t border-border">
+                <a
+                  href="#contact"
+                  data-ocid="nav.primary_button"
+                  className="section-label border border-foreground px-5 py-2.5 inline-block"
+                >
+                  Get in Touch
+                </a>
+              </li>
             </ul>
           </motion.div>
         )}
@@ -113,193 +130,269 @@ function Hero() {
   return (
     <section
       id="home"
-      className="grain relative min-h-screen flex flex-col justify-end overflow-hidden bg-background px-8 md:px-16 pb-20 pt-28"
+      className="grain relative min-h-screen flex flex-col justify-between overflow-hidden bg-background px-6 md:px-12 pt-28 pb-12"
     >
-      <div
-        aria-hidden
-        className="absolute right-0 top-1/2 -translate-y-[55%] font-display font-black select-none leading-[0.8] text-foreground opacity-[0.06] text-[55vw] pointer-events-none"
-      >
-        R
-      </div>
-
-      <div className="relative z-10 max-w-7xl mx-auto w-full">
+      <div className="relative z-10 w-full">
         <motion.div
-          initial={{ scaleX: 0, opacity: 0 }}
-          animate={{ scaleX: 1, opacity: 1 }}
-          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ duration: 1.0, ease: [0.22, 1, 0.36, 1] }}
           style={{ transformOrigin: "left" }}
           className="masthead-rule mb-6"
         />
-
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 md:gap-16">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className="flex-1"
+        <div className="flex items-start justify-between">
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+            className="section-label"
           >
-            <p className="section-label mb-5">Vol. I &nbsp;·&nbsp; Est. 2026</p>
-            <h1 className="font-display leading-[0.88] tracking-tight text-foreground">
-              <span className="block text-[14vw] md:text-[11vw] font-light">
-                Real
-              </span>
-              <span className="block text-[14vw] md:text-[11vw] font-light italic text-accent">
-                Truth.
-              </span>
-            </h1>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 24 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{
-              duration: 0.9,
-              delay: 0.55,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-            className="md:max-w-xs md:pb-3"
+            Web Solutions for Small Businesses
+          </motion.p>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            className="section-label hidden md:block"
           >
-            <p className="font-body text-xl leading-relaxed text-muted-foreground mb-6">
-              A literary space for authentic voices — and for all the stories
-              that were too heavy to carry alone.
-            </p>
-            <div className="flex items-center gap-3">
-              <div className="w-6 h-px bg-accent" />
-              <span className="section-label">
-                Hridiman Dutta &nbsp;&amp;&nbsp; Ayushman Bhattacharya
-              </span>
-            </div>
-          </motion.div>
+            Est. 2024
+          </motion.p>
         </div>
-
-        <motion.div
-          initial={{ scaleX: 0, opacity: 0 }}
-          animate={{ scaleX: 1, opacity: 1 }}
-          transition={{ duration: 0.9, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-          style={{ transformOrigin: "left" }}
-          className="h-px bg-border mt-10"
-        />
       </div>
 
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.4, duration: 0.8 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-      >
-        <motion.div
-          animate={{ y: [0, 7, 0] }}
-          transition={{
-            repeat: Number.POSITIVE_INFINITY,
-            duration: 2,
-            ease: "easeInOut",
+      <div className="relative z-10 flex-1 flex flex-col justify-center py-10 md:py-0">
+        <motion.h1
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.1, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+          className="font-display font-light text-foreground leading-[0.92] tracking-tight"
+          style={{
+            fontFamily: "'Cormorant Garant', Georgia, serif",
+            fontSize: "clamp(4rem, 14vw, 13rem)",
           }}
-          className="w-px h-10 bg-gradient-to-b from-muted-foreground/40 to-transparent"
+        >
+          <span className="block">Your Business</span>
+          <span className="block">Deserves a</span>
+          <span
+            className="block italic"
+            style={{ color: "oklch(var(--accent))" }}
+          >
+            Voice.
+          </span>
+        </motion.h1>
+      </div>
+
+      <div className="relative z-10 w-full">
+        <motion.div
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ duration: 1.0, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          style={{ transformOrigin: "left" }}
+          className="masthead-rule mb-6"
         />
-      </motion.div>
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+          <motion.p
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 1.0 }}
+            className="font-body text-sm text-muted-foreground leading-relaxed max-w-md"
+          >
+            The Silent Voice helps small vendors and shop owners step into the
+            digital world — Hridiman and Ayushman handle everything, so you
+            focus on what you do best.
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 1.2 }}
+            className="flex items-center gap-2"
+          >
+            <motion.span
+              animate={{ y: [0, 6, 0] }}
+              transition={{
+                duration: 2,
+                repeat: Number.POSITIVE_INFINITY,
+                ease: "easeInOut",
+              }}
+              className="section-label"
+            >
+              ↓
+            </motion.span>
+            <span className="section-label">Scroll to explore</span>
+          </motion.div>
+        </div>
+      </div>
     </section>
   );
 }
 
-// ─── Section Ornament ─────────────────────────────────────────────────────────
-function SectionOrnament() {
-  return (
-    <div className="flex items-center justify-center gap-4 py-2">
-      <div className="flex-1 h-px bg-border" />
-      <span className="section-label text-[10px] tracking-[0.35em]">· · ·</span>
-      <div className="flex-1 h-px bg-border" />
-    </div>
-  );
-}
-
 // ─── Section Header ───────────────────────────────────────────────────────────
-function SectionHeader({ label, title }: { label: string; title: string }) {
+function SectionHeader({
+  label,
+  title,
+  accent,
+}: {
+  label: string;
+  title: string;
+  accent?: string;
+}) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-      className="mb-14"
+      className="mb-16"
     >
-      <p className="section-label mb-3">{label}</p>
-      <h2 className="font-display text-4xl md:text-5xl font-light tracking-tight text-foreground leading-tight">
+      <div className="masthead-rule mb-5" />
+      <p className="section-label">{label}</p>
+      <h2
+        className="font-display font-light text-foreground leading-tight mt-6"
+        style={{
+          fontFamily: "'Cormorant Garant', Georgia, serif",
+          fontSize: "clamp(2.5rem, 5vw, 4.5rem)",
+        }}
+      >
         {title}
+        {accent && (
+          <>
+            {" "}
+            <em style={{ color: "oklch(var(--accent))" }}>{accent}</em>
+          </>
+        )}
       </h2>
-      <div className="mt-5 flex items-center gap-4">
-        <div className="w-10 h-[2px] bg-accent" />
-        <div className="flex-1 h-px bg-border" />
-      </div>
     </motion.div>
   );
 }
 
-// ─── About ───────────────────────────────────────────────────────────────────
-function About() {
-  const founders = [
+// ─── About ────────────────────────────────────────────────────────────────────
+function AboutSection() {
+  return (
+    <section id="about" className="py-28 px-6 md:px-12 bg-background">
+      <div className="max-w-7xl mx-auto">
+        <SectionHeader
+          label="Our Mission"
+          title="Two friends,"
+          accent="one digital mission."
+        />
+        <div className="grid md:grid-cols-2 gap-16 md:gap-24">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <p className="font-body text-base text-muted-foreground leading-[1.9] mb-6">
+              Hridiman Dutta and Ayushman Bhattacharya started The Silent Voice
+              with a simple belief: every small business deserves a presence in
+              the digital world, regardless of technical knowledge or budget.
+            </p>
+            <p className="font-body text-base text-muted-foreground leading-[1.9]">
+              They saw local vendors, shop owners, and neighbourhood businesses
+              struggling to be found online — and decided to do something about
+              it. The Silent Voice is their answer: a studio dedicated entirely
+              to giving small businesses the voice they deserve.
+            </p>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{
+              duration: 0.7,
+              delay: 0.15,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+            className="flex flex-col justify-center"
+          >
+            <blockquote
+              className="font-display font-light leading-snug border-l-2 pl-8"
+              style={{
+                fontFamily: "'Cormorant Garant', Georgia, serif",
+                borderColor: "oklch(var(--accent))",
+                fontSize: "clamp(1.6rem, 2.5vw, 2.4rem)",
+              }}
+            >
+              “Your shop, your story — told beautifully online.”
+            </blockquote>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── Why a Website ────────────────────────────────────────────────────────────
+function WhySection() {
+  const benefits = [
     {
-      name: "Hridiman Dutta",
-      role: "Founder",
-      photo: "/assets/generated/hridiman-dutta.dim_400x400.jpg",
-      bio: "Hridiman is a writer and founder of Real Truth. He authors long-form articles, essays, and literary fiction that illuminate the hidden lives of ordinary people. His books explore the emotional landscapes children traverse alone — the fears they can't name, the questions they dare not ask. Hridiman's work is dedicated to becoming the voice for those who haven't yet found their own.",
-      initials: "HD",
-      ocid: "about.card.1",
+      num: "01",
+      title: "Reach More Customers",
+      desc: "Your shop becomes visible to the entire city — and beyond. People find you through Google, not just word of mouth.",
     },
     {
-      name: "Ayushman Bhattacharya",
-      role: "Founder",
-      photo: "/assets/uploads/ayushmab-1.jpeg",
-      bio: "Ayushman is a writer, lyricist, and founder of Real Truth. Through articles, song, and books, he crafts honest narratives about self-discovery and the quiet courage it takes to live truthfully. He is deeply committed to helping children navigate life's uncharted territories — the problems they carry in silence, searching for a trusted hand to hold.",
-      initials: "AB",
-      ocid: "about.card.2",
+      num: "02",
+      title: "Build Trust & Credibility",
+      desc: "A professional website tells customers you're serious. It builds confidence before they even walk through your door.",
+    },
+    {
+      num: "03",
+      title: "Available 24 / 7",
+      desc: "Your website works while you sleep. Customers can browse your products, services, and reach you at any hour.",
+    },
+    {
+      num: "04",
+      title: "Grow Your Sales",
+      desc: "More visibility leads to more enquiries, more footfall, more orders. A website is the single best investment for any small business.",
     },
   ];
 
   return (
-    <section id="about" className="py-28 px-8 md:px-16 bg-secondary/30">
-      <div className="max-w-7xl mx-auto">
+    <section
+      id="services"
+      className="grain relative py-28 px-6 md:px-12"
+      style={{ background: "oklch(0.13 0.009 60)" }}
+    >
+      <div className="relative z-10 max-w-7xl mx-auto">
         <SectionHeader
-          label="The Founders"
-          title="Two friends,\none mission."
+          label="Why Go Digital"
+          title="Why every shop needs"
+          accent="a website."
         />
-        <div className="grid md:grid-cols-2 gap-12">
-          {founders.map((f, i) => (
+        <div className="divide-y divide-border">
+          {benefits.map((b, i) => (
             <motion.div
-              key={f.name}
-              data-ocid={f.ocid}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
+              key={b.num}
+              initial={{ opacity: 0, x: -16 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
               transition={{
-                duration: 0.7,
-                delay: i * 0.15,
+                duration: 0.65,
+                delay: i * 0.08,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="group"
+              className="grid grid-cols-[3.5rem_1fr] md:grid-cols-[6rem_1fr_2fr] items-start gap-6 md:gap-12 py-8 md:py-10"
             >
-              <div className="flex items-end gap-6 mb-6 pb-6 border-b border-border">
-                <div className="relative w-24 h-28 shrink-0 overflow-hidden bg-secondary">
-                  <img
-                    src={f.photo}
-                    alt={f.name}
-                    className="w-full h-full object-cover object-top"
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).style.display = "none";
-                    }}
-                  />
-                  <div className="absolute inset-0 bg-secondary flex items-center justify-center font-display text-3xl font-light text-muted-foreground -z-10">
-                    {f.initials}
-                  </div>
-                </div>
-                <div className="pb-1">
-                  <h3 className="font-display text-3xl font-light text-foreground leading-tight">
-                    {f.name}
-                  </h3>
-                  <p className="section-label mt-2">{f.role}</p>
-                </div>
-              </div>
-              <p className="font-body text-xl leading-relaxed text-muted-foreground">
-                {f.bio}
+              <span
+                className="section-label pt-1"
+                style={{ color: "oklch(var(--accent))" }}
+              >
+                {b.num}
+              </span>
+              <h3
+                className="font-display font-light text-foreground leading-tight"
+                style={{
+                  fontFamily: "'Cormorant Garant', Georgia, serif",
+                  fontSize: "clamp(1.4rem, 2.2vw, 2rem)",
+                }}
+              >
+                {b.title}
+              </h3>
+              <p className="hidden md:block font-body text-sm text-muted-foreground leading-relaxed">
+                {b.desc}
+              </p>
+              <p className="col-span-2 md:hidden font-body text-sm text-muted-foreground leading-relaxed -mt-2">
+                {b.desc}
               </p>
             </motion.div>
           ))}
@@ -309,240 +402,240 @@ function About() {
   );
 }
 
-// ─── Article / Writing Cards ──────────────────────────────────────────────────
-function LeadCard({
-  item,
-  type,
-}: { item: Article | Writing; type: "article" | "writing" }) {
-  const date = new Date(Number(item.published) / 1_000_000).toLocaleDateString(
-    "en-IN",
-    { year: "numeric", month: "long", day: "numeric" },
-  );
-  const ocidBase = type === "article" ? "articles" : "writings";
+// ─── How It Works ─────────────────────────────────────────────────────────────
+function HowSection() {
+  const steps = [
+    {
+      num: "01",
+      title: "We Listen",
+      desc: "We start by understanding your business — what you sell, who your customers are, and what makes you special. No jargon, no pressure. Just a conversation.",
+    },
+    {
+      num: "02",
+      title: "We Build",
+      desc: "Our team takes care of everything — design, content, development, and setup. You don't need to know anything about technology. We handle every detail.",
+    },
+    {
+      num: "03",
+      title: "You Shine",
+      desc: "Your website goes live and starts bringing in customers. We stay by your side to support, update, and help your business grow online.",
+    },
+  ];
 
   return (
-    <motion.article
-      data-ocid={`${ocidBase}.item.1`}
-      initial={{ opacity: 0, y: 28 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
-      className="group col-span-full grid md:grid-cols-[1fr_1.2fr] gap-10 border-b border-border pb-12 mb-4 cursor-default"
-    >
-      <div className="flex flex-col justify-between">
-        <div>
-          <p className="section-label mb-4">
-            {type === "article" ? "Lead Article" : "Lead Piece"} · {item.author}
-          </p>
-          <h3 className="font-display text-4xl md:text-5xl font-light text-foreground leading-[1.05] group-hover:text-accent transition-colors duration-400">
-            {item.title}
-          </h3>
-        </div>
-        <p className="section-label mt-6 hidden md:block">{date}</p>
-      </div>
-      <div className="flex flex-col justify-center">
-        <div className="w-8 h-[2px] bg-accent mb-5" />
-        <p className="font-body text-xl md:text-2xl leading-relaxed text-muted-foreground">
-          {item.content.slice(0, 260)}
-          {item.content.length > 260 ? "…" : ""}
-        </p>
-        <p className="section-label mt-5 md:hidden">{date}</p>
-      </div>
-    </motion.article>
-  );
-}
-
-function SecondaryCard({
-  item,
-  index,
-  type,
-}: { item: Article | Writing; index: number; type: "article" | "writing" }) {
-  const date = new Date(Number(item.published) / 1_000_000).toLocaleDateString(
-    "en-IN",
-    { year: "numeric", month: "short", day: "numeric" },
-  );
-  const ocidBase = type === "article" ? "articles" : "writings";
-
-  return (
-    <motion.article
-      data-ocid={`${ocidBase}.item.${index + 2}`}
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-30px" }}
-      transition={{
-        duration: 0.6,
-        delay: (index % 3) * 0.1,
-        ease: [0.22, 1, 0.36, 1],
-      }}
-      className="group border-t border-border pt-8 cursor-default"
-    >
-      <p className="section-label mb-3">
-        {item.author} · {date}
-      </p>
-      <h3 className="font-display text-2xl font-light text-foreground leading-snug mb-4 group-hover:text-accent transition-colors duration-300">
-        {item.title}
-      </h3>
-      <p className="font-body text-lg leading-relaxed text-muted-foreground">
-        {item.content.slice(0, 130)}
-        {item.content.length > 130 ? "…" : ""}
-      </p>
-    </motion.article>
-  );
-}
-
-// ─── Song Card ────────────────────────────────────────────────────────────────
-function SongCard({ song, index }: { song: Song; index: number }) {
-  const lines = song.lyrics.split("\n").slice(0, 4);
-  const isLead = index === 0;
-
-  if (isLead) {
-    return (
-      <motion.article
-        data-ocid="songs.item.1"
-        initial={{ opacity: 0, y: 28 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-40px" }}
-        transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
-        className="group col-span-full grid md:grid-cols-2 gap-10 border-b border-border pb-12 mb-4 cursor-default"
-      >
-        <div>
-          <p className="section-label mb-4">Lead Song · {song.author}</p>
-          <h3 className="font-display text-4xl md:text-5xl font-light text-foreground leading-tight group-hover:text-accent transition-colors duration-300">
-            {song.title}
-          </h3>
-        </div>
-        <div className="flex flex-col justify-center">
-          <div className="w-8 h-[2px] bg-accent mb-5" />
-          <div className="font-body text-2xl leading-loose text-muted-foreground italic">
-            {lines.map((line, i) => (
-              <p key={`lead-line-${line.trim() || i}`}>{line || "\u00A0"}</p>
-            ))}
-          </div>
-          {song.lyrics.split("\n").length > 4 && (
-            <p className="section-label mt-4 not-italic">— continues</p>
-          )}
-        </div>
-      </motion.article>
-    );
-  }
-
-  return (
-    <motion.article
-      data-ocid={`songs.item.${index + 1}`}
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-30px" }}
-      transition={{
-        duration: 0.6,
-        delay: (index % 3) * 0.1,
-        ease: [0.22, 1, 0.36, 1],
-      }}
-      className="group border-t border-border pt-8 cursor-default"
-    >
-      <div className="flex items-start justify-between mb-4">
-        <div>
-          <p className="section-label mb-2">{song.author}</p>
-          <h3 className="font-display text-2xl font-light text-foreground group-hover:text-accent transition-colors duration-300">
-            {song.title}
-          </h3>
-        </div>
-        <Badge
-          variant="secondary"
-          className="font-sans text-[10px] tracking-widest shrink-0 ml-4 mt-1 uppercase"
-        >
-          Song
-        </Badge>
-      </div>
-      <div className="font-body text-lg leading-loose text-muted-foreground italic">
-        {lines.slice(0, 2).map((line, i) => (
-          <p key={`line-${line.trim() || i}`}>{line || "\u00A0"}</p>
-        ))}
-        {song.lyrics.split("\n").length > 2 && (
-          <p className="not-italic section-label mt-2">— continues</p>
-        )}
-      </div>
-    </motion.article>
-  );
-}
-
-// ─── Content Section ─────────────────────────────────────────────────────────
-function ContentSection({
-  id,
-  label,
-  title,
-  isLoading,
-  tinted,
-  children,
-}: {
-  id: string;
-  label: string;
-  title: string;
-  isLoading: boolean;
-  tinted?: boolean;
-  children: React.ReactNode;
-}) {
-  return (
-    <section
-      id={id}
-      className={`py-28 px-8 md:px-16 ${tinted ? "bg-secondary/30" : "bg-background"}`}
-    >
+    <section id="how" className="py-28 px-6 md:px-12 bg-background">
       <div className="max-w-7xl mx-auto">
-        <SectionHeader label={label} title={title} />
-        {isLoading ? (
-          <div className="space-y-8" data-ocid={`${id}.loading_state`}>
-            <div className="grid md:grid-cols-2 gap-10 pb-12 border-b border-border">
-              <div className="space-y-4">
-                <Skeleton className="h-3 w-28" />
-                <Skeleton className="h-12 w-full" />
-                <Skeleton className="h-12 w-3/4" />
-              </div>
-              <div className="space-y-3">
-                <Skeleton className="h-[2px] w-8" />
-                <Skeleton className="h-5 w-full" />
-                <Skeleton className="h-5 w-full" />
-                <Skeleton className="h-5 w-2/3" />
-              </div>
-            </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[1, 2].map((i) => (
-                <div key={i} className="space-y-3 pt-8 border-t border-border">
-                  <Skeleton className="h-3 w-24" />
-                  <Skeleton className="h-7 w-4/5" />
-                  <Skeleton className="h-16 w-full" />
-                </div>
-              ))}
-            </div>
-          </div>
-        ) : (
-          children
-        )}
+        <SectionHeader
+          label="Simple Process"
+          title="Three steps to"
+          accent="your own website."
+        />
+        <div className="divide-y divide-border">
+          {steps.map((step, i) => (
+            <motion.div
+              key={step.num}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{
+                duration: 0.7,
+                delay: i * 0.1,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="grid md:grid-cols-[6rem_1fr_2fr] gap-6 md:gap-12 py-10 md:py-14"
+            >
+              <span
+                className="section-label pt-1"
+                style={{ color: "oklch(var(--accent))" }}
+              >
+                {step.num}
+              </span>
+              <h3
+                className="font-display font-light text-foreground leading-tight"
+                style={{
+                  fontFamily: "'Cormorant Garant', Georgia, serif",
+                  fontSize: "clamp(2rem, 3.5vw, 3.2rem)",
+                }}
+              >
+                {step.title}
+              </h3>
+              <p className="font-body text-sm text-muted-foreground leading-[1.9] max-w-md">
+                {step.desc}
+              </p>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   );
 }
 
-// ─── Seeder ───────────────────────────────────────────────────────────────────
-function useAutoSeed(
-  articlesCount: number | undefined,
-  writingsCount: number | undefined,
-  songsCount: number | undefined,
-) {
-  const { mutate: seed } = useSeedContent();
-  const seeded = useRef(false);
+// ─── Team ─────────────────────────────────────────────────────────────────────
+function TeamSection() {
+  const founders = [
+    {
+      name: "Hridiman Dutta",
+      role: "Founder",
+      photo: "/assets/uploads/WhatsApp-Image-2026-03-11-at-6.14.23-PM-1.jpeg",
+      bio: "Hridiman is passionate about empowering small businesses and vendors who deserve a digital presence but don't know where to start. With a background in storytelling and community building, he founded The Silent Voice to give every local business the voice they deserve online.",
+      initials: "HD",
+      ocid: "team.card.1",
+    },
+    {
+      name: "Ayushman Bhattacharya",
+      role: "Co-founder",
+      photo: "/assets/uploads/ayushmab-1.jpeg",
+      bio: "Ayushman believes that technology should work for everyone — not just those who understand it. He co-founded The Silent Voice to bridge the gap between small businesses and the digital world, ensuring that shop owners get a beautiful, effective web presence they're proud of.",
+      initials: "AB",
+      ocid: "team.card.2",
+    },
+  ];
 
-  useEffect(() => {
-    if (seeded.current) return;
-    if (
-      articlesCount === undefined ||
-      writingsCount === undefined ||
-      songsCount === undefined
-    )
-      return;
-    if (articlesCount === 0 && writingsCount === 0 && songsCount === 0) {
-      seeded.current = true;
-      seed();
-    }
-  }, [articlesCount, writingsCount, songsCount, seed]);
+  return (
+    <section
+      id="team"
+      className="grain relative py-28 px-6 md:px-12"
+      style={{ background: "oklch(0.13 0.009 60)" }}
+    >
+      <div className="relative z-10 max-w-7xl mx-auto">
+        <SectionHeader
+          label="Meet the Founders"
+          title="The people behind"
+          accent="your website."
+        />
+        <div className="divide-y divide-border">
+          {founders.map((f, i) => (
+            <motion.div
+              key={f.name}
+              data-ocid={f.ocid}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{
+                duration: 0.7,
+                delay: i * 0.12,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="grid md:grid-cols-[6rem_260px_1fr] gap-8 md:gap-12 py-12 md:py-16 items-start"
+            >
+              <span
+                className="section-label pt-2"
+                style={{ color: "oklch(var(--accent))" }}
+              >
+                0{i + 1}
+              </span>
+              <div className="relative w-full max-w-[260px] aspect-[3/4] bg-muted overflow-hidden">
+                <img
+                  src={f.photo}
+                  alt={f.name}
+                  className="w-full h-full object-cover object-top"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).style.display = "none";
+                  }}
+                />
+                <div
+                  aria-hidden
+                  className="absolute inset-0 flex items-center justify-center font-display text-5xl font-light text-muted-foreground/20 -z-10"
+                  style={{ fontFamily: "'Cormorant Garant', Georgia, serif" }}
+                >
+                  {f.initials}
+                </div>
+              </div>
+              <div className="flex flex-col justify-start pt-0 md:pt-2">
+                <p
+                  className="section-label mb-4"
+                  style={{ color: "oklch(var(--accent))" }}
+                >
+                  {f.role}
+                </p>
+                <h3
+                  className="font-display font-light text-foreground leading-tight mb-6"
+                  style={{
+                    fontFamily: "'Cormorant Garant', Georgia, serif",
+                    fontSize: "clamp(2rem, 3vw, 2.8rem)",
+                  }}
+                >
+                  {f.name}
+                </h3>
+                <p className="font-body text-sm text-muted-foreground leading-[1.9] max-w-md">
+                  {f.bio}
+                </p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── Contact ──────────────────────────────────────────────────────────────────
+function ContactSection() {
+  return (
+    <section
+      id="contact"
+      className="grain relative py-28 px-6 md:px-12 overflow-hidden bg-background"
+    >
+      <div className="relative z-10 max-w-7xl mx-auto">
+        <div className="masthead-rule mb-5" />
+        <p className="section-label mb-12">Get In Touch</p>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          className="grid md:grid-cols-2 gap-12 md:gap-24 items-end"
+        >
+          <div>
+            <h2
+              className="font-display font-light text-foreground leading-tight mb-10"
+              style={{
+                fontFamily: "'Cormorant Garant', Georgia, serif",
+                fontSize: "clamp(3rem, 7vw, 7rem)",
+              }}
+            >
+              Ready to get
+              <br />
+              <em style={{ color: "oklch(var(--accent))" }}>your website?</em>
+            </h2>
+            <a
+              href="mailto:thesilentvoiceofrealtruth@gmail.com"
+              data-ocid="contact.primary_button"
+              className="group inline-flex items-center gap-3 border border-foreground/40 font-body text-sm px-8 py-4 hover:border-foreground hover:text-foreground transition-all duration-200 text-muted-foreground"
+            >
+              <span>thesilentvoiceofrealtruth@gmail.com</span>
+              <span className="transition-transform group-hover:translate-x-1">
+                →
+              </span>
+            </a>
+          </div>
+          <div className="flex flex-col gap-0 divide-y divide-border">
+            {[
+              { label: "Response Time", value: "Within 24 hours" },
+              { label: "First Consultation", value: "Always free" },
+              { label: "Pricing", value: "No hidden charges" },
+            ].map((item) => (
+              <div
+                key={item.label}
+                className="flex items-center justify-between py-5"
+              >
+                <span className="section-label">{item.label}</span>
+                <span
+                  className="font-display font-light text-foreground"
+                  style={{
+                    fontFamily: "'Cormorant Garant', Georgia, serif",
+                    fontSize: "1.25rem",
+                  }}
+                >
+                  {item.value}
+                </span>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
 }
 
 // ─── Footer ───────────────────────────────────────────────────────────────────
@@ -553,35 +646,35 @@ function Footer() {
   const caffeineUrl = `https://caffeine.ai?utm_source=caffeine-footer&utm_medium=referral&utm_content=${encodeURIComponent(hostname)}`;
 
   return (
-    <footer id="contact" className="border-t-2 border-foreground bg-background">
-      <div className="max-w-7xl mx-auto px-8 md:px-16 pt-16 pb-10">
-        <div className="flex flex-col md:flex-row justify-between items-start gap-12 mb-12">
-          <div className="max-w-sm">
-            <h3 className="font-display text-4xl font-light text-foreground leading-tight mb-4">
-              Real Truth
-            </h3>
-            <p className="font-body text-lg text-muted-foreground leading-relaxed">
-              Authentic voices, honest stories — a literary home for every word
-              that has been waiting to be spoken.
+    <footer
+      className="px-6 md:px-12 py-12"
+      style={{ background: "oklch(0.10 0.008 60)" }}
+    >
+      <div className="max-w-7xl mx-auto">
+        <div className="masthead-rule mb-8" />
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div>
+            <p
+              className="font-display text-xl font-light text-foreground mb-1"
+              style={{ fontFamily: "'Cormorant Garant', Georgia, serif" }}
+            >
+              The Silent Voice
+            </p>
+            <p className="section-label">
+              We build websites so you can focus on your business.
             </p>
           </div>
-
-          <div>
-            <p className="section-label mb-5">Get in touch</p>
-            <a
-              href="mailto:thesilentvoiceofrealtruth@gmail.com"
-              className="font-body text-xl text-foreground hover:text-accent transition-colors"
-            >
-              thesilentvoiceofrealtruth@gmail.com
-            </a>
-          </div>
+          <a
+            href="mailto:thesilentvoiceofrealtruth@gmail.com"
+            data-ocid="footer.link"
+            className="section-label hover:text-foreground transition-colors"
+          >
+            thesilentvoiceofrealtruth@gmail.com
+          </a>
         </div>
-
-        <div className="masthead-rule" />
-
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4 pt-4">
+        <div className="mt-10 pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="section-label">
-            © {year} Real Truth. All rights reserved.
+            © {year} The Silent Voice. All rights reserved.
           </p>
           <a
             href={caffeineUrl}
@@ -599,111 +692,17 @@ function Footer() {
 
 // ─── App ──────────────────────────────────────────────────────────────────────
 export default function App() {
-  const { data: articles, isLoading: articlesLoading } = useListAllArticles();
-  const { data: writings, isLoading: writingsLoading } = useListAllWritings();
-  const { data: songs, isLoading: songsLoading } = useListAllSongs();
-
-  useAutoSeed(articles?.length, writings?.length, songs?.length);
-
-  const [leadArticle, ...restArticles] = articles ?? [];
-  const [leadWriting, ...restWritings] = writings ?? [];
-  const [leadSong, ...restSongs] = songs ?? [];
-
   return (
     <div className="min-h-screen bg-background">
       <Nav />
       <main>
         <Hero />
-
-        <About />
-
-        <SectionOrnament />
-
-        <ContentSection
-          id="articles"
-          label="Featured Articles"
-          title={"Words that\nilluminate."}
-          isLoading={articlesLoading}
-        >
-          {articles && articles.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-0">
-              {leadArticle && <LeadCard item={leadArticle} type="article" />}
-              {restArticles.map((a, i) => (
-                <SecondaryCard
-                  key={String(a.id)}
-                  item={a}
-                  index={i}
-                  type="article"
-                />
-              ))}
-            </div>
-          ) : (
-            <div
-              className="py-16 text-muted-foreground"
-              data-ocid="articles.empty_state"
-            >
-              <p className="font-body text-lg">No articles yet.</p>
-            </div>
-          )}
-        </ContentSection>
-
-        <SectionOrnament />
-
-        <ContentSection
-          id="writings"
-          label="Literary Pieces"
-          title={"Prose that\nlingers."}
-          isLoading={writingsLoading}
-          tinted
-        >
-          {writings && writings.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-0">
-              {leadWriting && <LeadCard item={leadWriting} type="writing" />}
-              {restWritings.map((w, i) => (
-                <SecondaryCard
-                  key={String(w.id)}
-                  item={w}
-                  index={i}
-                  type="writing"
-                />
-              ))}
-            </div>
-          ) : (
-            <div
-              className="py-16 text-muted-foreground"
-              data-ocid="writings.empty_state"
-            >
-              <p className="font-body text-lg">No writings yet.</p>
-            </div>
-          )}
-        </ContentSection>
-
-        <SectionOrnament />
-
-        <ContentSection
-          id="songs"
-          label="Original Songs"
-          title={"Melodies\nwith meaning."}
-          isLoading={songsLoading}
-        >
-          {songs && songs.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-0">
-              {leadSong && <SongCard song={leadSong} index={0} />}
-              {restSongs.map((s, i) => (
-                <SongCard key={String(s.id)} song={s} index={i + 1} />
-              ))}
-            </div>
-          ) : (
-            <div
-              className="py-16 text-muted-foreground"
-              data-ocid="songs.empty_state"
-            >
-              <p className="font-body text-lg">No songs yet.</p>
-            </div>
-          )}
-        </ContentSection>
+        <AboutSection />
+        <WhySection />
+        <HowSection />
+        <TeamSection />
+        <ContactSection />
       </main>
-
       <Footer />
     </div>
   );

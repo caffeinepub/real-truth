@@ -16,9 +16,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ['Fraunces', 'Georgia', 'serif'],
-        body: ['Crimson Pro', 'Georgia', 'serif'],
-        sans: ['General Sans', 'system-ui', 'sans-serif'],
+        display: ['"Cormorant Garant"', 'Georgia', 'serif'],
+        body: ['"DM Sans"', 'system-ui', 'sans-serif'],
+        sans: ['"DM Sans"', 'system-ui', 'sans-serif'],
       },
       colors: {
         border: "oklch(var(--border))",
@@ -78,9 +78,9 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       boxShadow: {
-        xs: "0 1px 2px 0 rgba(0,0,0,0.05)",
-        card: "0 1px 3px 0 rgba(0,0,0,0.06), 0 1px 2px -1px rgba(0,0,0,0.04)",
-        lift: "0 8px 24px -4px rgba(0,0,0,0.10), 0 2px 8px -2px rgba(0,0,0,0.06)",
+        xs: "0 1px 2px 0 rgba(0,0,0,0.2)",
+        card: "0 2px 8px 0 rgba(0,0,0,0.3)",
+        lift: "0 12px 32px -4px rgba(0,0,0,0.55)",
       },
       keyframes: {
         "accordion-down": {

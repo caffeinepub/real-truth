@@ -1,26 +1,4 @@
-@font-face {
-  font-family: "Fraunces";
-  src: url("/assets/fonts/Fraunces.woff2") format("woff2");
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Crimson Pro";
-  src: url("/assets/fonts/CrimsonPro.woff2") format("woff2");
-  font-weight: 200 900;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "General Sans";
-  src: url("/assets/fonts/GeneralSans.woff2") format("woff2");
-  font-weight: 200 700;
-  font-style: normal;
-  font-display: swap;
-}
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garant:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=DM+Sans:wght@300;400;500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -28,50 +6,50 @@
 
 @layer base {
   :root {
-    --background: 0.97 0.008 60;
-    --foreground: 0.18 0.02 40;
+    --background: 0.1 0.008 60;
+    --foreground: 0.94 0.012 72;
 
-    --card: 0.99 0.004 60;
-    --card-foreground: 0.18 0.02 40;
+    --card: 0.13 0.009 60;
+    --card-foreground: 0.94 0.012 72;
 
-    --popover: 0.99 0.004 60;
-    --popover-foreground: 0.18 0.02 40;
+    --popover: 0.13 0.009 60;
+    --popover-foreground: 0.94 0.012 72;
 
-    --primary: 0.22 0.025 40;
-    --primary-foreground: 0.97 0.004 60;
+    --primary: 0.76 0.12 72;
+    --primary-foreground: 0.1 0.008 60;
 
-    --secondary: 0.93 0.012 60;
-    --secondary-foreground: 0.22 0.025 40;
+    --secondary: 0.15 0.01 60;
+    --secondary-foreground: 0.94 0.012 72;
 
-    --muted: 0.93 0.01 60;
-    --muted-foreground: 0.52 0.02 50;
+    --muted: 0.17 0.01 60;
+    --muted-foreground: 0.56 0.018 72;
 
-    --accent: 0.44 0.1 42;
-    --accent-foreground: 0.97 0.004 60;
+    --accent: 0.76 0.12 72;
+    --accent-foreground: 0.1 0.008 60;
 
     --destructive: 0.55 0.22 25;
     --destructive-foreground: 0.97 0.004 60;
 
-    --border: 0.88 0.015 55;
-    --input: 0.88 0.015 55;
-    --ring: 0.44 0.1 42;
+    --border: 0.22 0.012 60;
+    --input: 0.22 0.012 60;
+    --ring: 0.76 0.12 72;
 
-    --radius: 0.125rem;
+    --radius: 0rem;
 
-    --chart-1: 0.44 0.1 42;
+    --chart-1: 0.76 0.12 72;
     --chart-2: 0.52 0.1 200;
     --chart-3: 0.68 0.08 60;
     --chart-4: 0.45 0.15 30;
     --chart-5: 0.72 0.06 180;
 
-    --sidebar: 0.97 0.008 60;
-    --sidebar-foreground: 0.18 0.02 40;
-    --sidebar-primary: 0.22 0.025 40;
-    --sidebar-primary-foreground: 0.97 0.004 60;
-    --sidebar-accent: 0.93 0.012 60;
-    --sidebar-accent-foreground: 0.22 0.025 40;
-    --sidebar-border: 0.88 0.015 55;
-    --sidebar-ring: 0.44 0.1 42;
+    --sidebar: 0.1 0.008 60;
+    --sidebar-foreground: 0.94 0.012 72;
+    --sidebar-primary: 0.76 0.12 72;
+    --sidebar-primary-foreground: 0.1 0.008 60;
+    --sidebar-accent: 0.15 0.01 60;
+    --sidebar-accent-foreground: 0.94 0.012 72;
+    --sidebar-border: 0.22 0.012 60;
+    --sidebar-ring: 0.76 0.12 72;
   }
 
   * {
@@ -83,16 +61,17 @@
   }
 
   body {
-    @apply bg-background text-foreground font-body;
-    font-feature-settings: "liga" 1, "kern" 1, "onum" 1;
+    @apply bg-background text-foreground;
+    font-family: "DM Sans", system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   h1,
   h2,
   h3,
   h4 {
-    @apply font-display;
+    font-family: "Cormorant Garant", Georgia, serif;
   }
 }
 
@@ -101,30 +80,40 @@
     text-wrap: balance;
   }
 
-  .section-label {
-    @apply font-sans text-xs tracking-[0.22em] uppercase text-muted-foreground;
+  .font-display {
+    font-family: "Cormorant Garant", Georgia, serif;
   }
 
-  /* Paper grain texture overlay */
+  .font-body {
+    font-family: "DM Sans", system-ui, sans-serif;
+  }
+
+  .section-label {
+    font-family: "DM Sans", system-ui, sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: oklch(var(--muted-foreground));
+  }
+
+  .masthead-rule {
+    height: 2px;
+    width: 100%;
+    background-color: oklch(var(--foreground));
+  }
+
   .grain {
     position: relative;
   }
-  .grain::after {
+  .grain::before {
     content: "";
     position: absolute;
     inset: 0;
     pointer-events: none;
-    opacity: 0.045;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
     background-repeat: repeat;
     background-size: 180px;
-    z-index: 1;
-  }
-
-  /* Masthead rule — thick top + thin bottom like printed press */
-  .masthead-rule {
-    border-top: 3px solid oklch(var(--foreground));
-    border-bottom: 1px solid oklch(var(--foreground));
-    padding: 4px 0 3px;
+    z-index: 0;
   }
 }
